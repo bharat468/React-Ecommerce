@@ -8,7 +8,7 @@ const SingleProduct = () => {
   const { cart, setCart } = useCart();
   const [singleProduct, setSingleProduct] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
   useEffect(() => {
     getSingleData(id);
@@ -71,11 +71,11 @@ const SingleProduct = () => {
 
         {/* Quantity + Add to Cart */}
         <div className="flex items-center gap-5">
-          <div className="flex items-center border border-gray-300 rounded-lg bg-gray-100 px-3 py-1">
+          {/* <div className="flex items-center border border-gray-300 rounded-lg bg-gray-100 px-3 py-1">
             <button className="text-2xl font-semibold px-2 text-gray-500 hover:text-gray-700 focus:outline-none">-</button>
             <span className="px-3 text-lg font-medium text-gray-800">1</span>
             <button className="text-2xl font-semibold px-2 text-gray-500 hover:text-gray-700 focus:outline-none">+</button>
-          </div>
+          </div> */}
 
           <button
             onClick={() => handleAddToCart(singleProduct._id)}
