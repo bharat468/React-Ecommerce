@@ -11,7 +11,5 @@ import './index.css'
 import Router from './ecommerce/pages/Router'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <Router />
-  </StrictMode>,
 )

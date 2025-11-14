@@ -13,6 +13,7 @@ import CartProvider from "../contexts/CartProvider";
 import AuthProvider from "../contexts/AuthProvider";
 import Blog from "./Blog";
 import Contact from "./Contact"
+import CurrencyProvider from "../contexts/CurrencyProvider";
 
 
 const router = createBrowserRouter([
@@ -25,13 +26,17 @@ const router = createBrowserRouter([
         element: <First />,
       },
       {
+        path: "/home",
+        element: <Home />,
+      },
+      {
         path: "/cart",
         element: <Cart />,
       },
-    //   {
-    //     path: "/wishlist",
-    //     element: <Wishlist />,
-    //   },
+      //   {
+      //     path: "/wishlist",
+      //     element: <Wishlist />,
+      //   },
       {
         path: "/about",
         element: <About />,
@@ -54,11 +59,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/blog",
-        element: <Blog/>,
+        element: <Blog />,
       },
       {
         path: "/contect",
-        element: <Contact/>,
+        element: <Contact />,
       },
       {
         path: "/home",
@@ -75,9 +80,11 @@ const router = createBrowserRouter([
 function Router() {
   return (
     <AuthProvider>
-      <CartProvider>
-        <RouterProvider router={router} />
-      </CartProvider>
+      <CurrencyProvider>
+        <CartProvider>
+          <RouterProvider router={router} />
+        </CartProvider>
+      </CurrencyProvider>
     </AuthProvider>
   );
 }

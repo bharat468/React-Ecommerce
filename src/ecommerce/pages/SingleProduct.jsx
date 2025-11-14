@@ -28,9 +28,11 @@ const SingleProduct = () => {
 
   if (loading) return <h1 className="text-center text-xl font-semibold py-10 text-gray-600">Loading...</h1>;
 
-  function handleAddToCart(idToAdd) {
-    setCart([...cart, { id: idToAdd, quantity: 1 }]);
+  function handleAddToCart(pruductAdd) {
+    setCart([...cart, pruductAdd]);
   }
+
+  console.log(cart)
 
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col lg:flex-row items-center justify-center p-6 lg:p-10">
@@ -78,7 +80,7 @@ const SingleProduct = () => {
           </div> */}
 
           <button
-            onClick={() => handleAddToCart(singleProduct._id)}
+            onClick={() => handleAddToCart(singleProduct)}
             className="bg-[#111] text-white px-10 py-3 font-semibold rounded-lg transition-all duration-300 hover:bg-[#222] hover:scale-105"
           >
             Add to Cart

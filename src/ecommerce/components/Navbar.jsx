@@ -1,27 +1,38 @@
-import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
 import { useCart } from "../contexts/CartProvider";
 import { useAuth } from "../contexts/AuthProvider";
+import { useCurrency } from "../contexts/CurrencyProvider";
 
 const Navbar = () => {
   const { cart } = useCart();
   const { isLoggedIn, logout } = useAuth();
 
+  const { currency, setCurrency } = useCurrency();
+
   return (
     <header className="bg-gradient-to-r from-[#005f82] to-[#002f56] text-white shadow-lg sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto flex justify-between items-center px-8 py-4">
-        {/* Logo / Brand Name */}
+
+        {/* Logo */}
         <h1 className="text-2xl font-semibold tracking-wide font-[Poppins] hover:text-[#ffcc66] transition">
-          <Link to="/">My Website</Link>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-[#ffcc66] font-semibold pb-1"
+                : "hover:text-[#ffcc66] transition"
+            }
+          >
+            My Website
+          </NavLink>
         </h1>
 
-        {/* Navigation Links */}
+        {/* Navigation */}
         <ul className="flex gap-8 text-[16px] font-[Poppins] flex-wrap items-center">
           <li>
             <NavLink
               to="/"
-              end
               className={({ isActive }) =>
                 isActive
                   ? "text-[#ffcc66] font-semibold border-b-2 border-[#ffcc66] pb-1"
@@ -83,6 +94,19 @@ const Navbar = () => {
             >
               Contact
             </NavLink>
+          </li>
+
+          {/* ⭐ Currency Dropdown Added Here */}
+          <li>
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="bg-[#ffcc66] text-[#002f56] font-semibold px-3 py-1 rounded-full cursor-pointer shadow-md hover:bg-[#ffd98b] transition"
+            >
+              <option value="INR">INR ₹</option>
+              <option value="USD">USD $</option>
+              <option value="EUR">EUR €</option>
+            </select>
           </li>
 
           <li>
