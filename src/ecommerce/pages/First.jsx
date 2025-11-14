@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBoxOpen } from 'react-icons/fa6'   // 🛍️ Icon for “Products”
 import instance from '../config/axiosConfig'
+import { useCurrency } from '../contexts/CurrencyProvider'
 
 const First = () => {
   useEffect(() => {
@@ -16,6 +17,8 @@ const First = () => {
 
   const [product, setProduct] = useState([])
   const [loading, setLoading] = useState(false)
+    const { convert, currency } = useCurrency()
+  
 
   useEffect(() => {
     getData()
@@ -85,7 +88,8 @@ const First = () => {
               </h3>
 
               <p className="text-[1.3rem] font-medium m-0">
-                ₹{obj.price}
+                 {currency} {convert(obj.price).toFixed(2)}
+
               </p>
             </div>
           ))}
