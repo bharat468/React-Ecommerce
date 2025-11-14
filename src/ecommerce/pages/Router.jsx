@@ -12,7 +12,7 @@ import ProtectedRoute from "../components/ProtectedRouter";
 import CartProvider from "../contexts/CartProvider";
 import AuthProvider from "../contexts/AuthProvider";
 import Blog from "./Blog";
-import Contact from "./Contact"
+import Contact from "../pages/Contact";
 import CurrencyProvider from "../contexts/CurrencyProvider";
 
 
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
         element: <Blog />,
       },
       {
-        path: "/contect",
+        path: "/contact",
         element: <Contact />,
       },
       {
