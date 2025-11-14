@@ -10,11 +10,9 @@ const SingleProduct = () => {
   const { convert, currency } = useCurrency()
   const [singleProduct, setSingleProduct] = useState({});
   const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
 
   useEffect(() => {
     getSingleData(id);
-    console.log(id);
   }, [id]);
 
   useEffect(() => {
@@ -28,51 +26,67 @@ const SingleProduct = () => {
     setLoading(false);
   }
 
-  if (loading) return <h1 className="text-center text-xl font-semibold py-10 text-gray-600">Loading...</h1>;
+  if (loading)
+    return (
+      <h1 className="text-center text-xl font-semibold py-10 text-gray-600">Loading...</h1>
+    );
 
   function handleAddToCart(pruductAdd) {
     setCart([...cart, pruductAdd]);
   }
 
-  console.log(cart)
-
   return (
-    <div className="min-h-screen w-full bg-gray-50 flex flex-col lg:flex-row items-center justify-center p-6 lg:p-10">
+    <div className="min-h-screen w-full bg-gradient-to-br from-[#faf7fc] to-[#f3f0f7] flex flex-col lg:flex-row items-center justify-center p-6 lg:p-12 font-[Poppins]">
 
-      {/* Left Section - Image */}
-      <div className="lg:w-1/2 w-full flex justify-center items-center p-8 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
-        <div className="w-[320px] h-[320px] flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
+      {/* LEFT SECTION - IMAGE */}
+      <div className="lg:w-1/2 w-full flex justify-center items-center p-10">
+        <div className="relative bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300">
+
+          {/* Glow Effect */}
+          <div className="absolute top-10 left-1/2 -translate-x-1/2 w-40 h-40 bg-[#C63E21]/20 blur-3xl rounded-full"></div>
+
+          {/* Image */}
           <img
             src={singleProduct.image}
             alt={singleProduct.name}
-            className="object-contain max-h-[260px] max-w-full transition-transform duration-300 hover:scale-105"
+            className="relative z-10 object-contain h-[330px] w-[330px] hover:scale-105 transition-transform duration-300"
           />
         </div>
       </div>
 
-      {/* Right Section - Details */}
+      {/* RIGHT SECTION - DETAILS */}
       <div className="lg:w-1/2 w-full p-8 flex flex-col justify-center">
-        <div className="flex items-start justify-between mb-4">
-          <h1 className="text-3xl font-bold text-gray-800 tracking-tight">{singleProduct.name}</h1>
-          <span className="text-2xl font-semibold text-[#111]">{currency} {convert(singleProduct.price).toFixed(2)}</span>
+
+        {/* Title + Price */}
+        <div className="flex flex-col gap-2 mb-6">
+          <h1 className="text-3xl sm:text-4xl font-bold text-[#1f3340] tracking-wide">
+            {singleProduct.name}
+          </h1>
+
+          <span className="text-3xl font-semibold text-[#C63E21] drop-shadow-md">
+            {currency} {convert(singleProduct.price).toFixed(2)}
+          </span>
+
+          <div className="w-20 h-[3px] bg-[#C63E21] mt-3 rounded-full"></div>
         </div>
 
-        <div className="mb-6">
-          <p className="text-gray-600 text-base leading-relaxed">{singleProduct.description}</p>
-        </div>
+        {/* Description */}
+        <p className="text-gray-700 text-lg leading-relaxed bg-white/60 backdrop-blur-xl border border-white/40 p-5 rounded-xl shadow-md">
+          {singleProduct.description}
+        </p>
 
-
-        {/* Quantity + Add to Cart */}
-        <div className="flex items-center gap-5">
-
-
+        {/* Add to Cart Button */}
+        <div className="mt-8">
           <button
             onClick={() => handleAddToCart(singleProduct)}
-            className="bg-[#111] text-white px-10 py-3 font-semibold rounded-lg transition-all duration-300 hover:bg-[#222] hover:scale-105"
+            className="px-14 py-4 rounded-xl bg-[#C63E21] text-white font-semibold text-lg
+            shadow-md hover:shadow-xl hover:-translate-y-1
+            transition-all duration-300"
           >
             Add to Cart
           </button>
         </div>
+
       </div>
     </div>
   );

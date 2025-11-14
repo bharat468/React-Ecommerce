@@ -46,47 +46,46 @@ export default function Cart() {
   }
 
   function handleRemove(id) {
-
-    setCart(cart.filter((obj) => {
-      return obj._id !== id
-    }))
+    setCart(cart.filter((obj) => obj._id !== id))
   }
 
-  const grandTotal = cart.reduce((acc, obj) => acc + convert(obj.price * obj.quantity), 0)
+  const grandTotal = cart
+    .reduce((acc, obj) => acc + convert(obj.price * obj.quantity), 0)
     .toFixed(2);
 
-
-
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-6">
+    <div className="min-h-screen bg-gray-100 py-10 px-4 md:px-8">
+      
+      {/* Heading */}
       <h1 className="text-3xl font-bold text-center mb-10 text-gray-800">
         🛒 Your Cart
       </h1>
 
+      {/* Empty Cart Message */}
       {cart.length === 0 ? (
-        <div className="text-center text-gray-500 text-lg mt-10">
+        <div className="text-center text-gray-600 text-lg mt-10">
           Sorry :- आपका Cart खाली है 😔
         </div>
       ) : (
-        <div className="max-w-5xl mx-auto flex flex-col space-y-6">
+        <div className="max-w-5xl mx-auto flex flex-col gap-6">
+
           {cart.map((obj) => (
             <div
               key={obj._id}
-              className="relative flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
+              className="relative flex flex-col md:flex-row items-center md:items-start md:justify-between gap-6 p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200"
             >
-              {/* Remove icon (UI only). Add onClick={() => remove(itemId)} when you implement remove logic */}
+              
+              {/* Remove Button */}
               <button
                 type="button"
                 aria-label="Remove item"
                 title="Remove item"
-                className="absolute right-4 top-4 flex items-center justify-center w-9 h-9 rounded-full hover:bg-red-50 transition"
+                className="absolute right-4 top-4 w-9 h-9 bg-red-50 hover:bg-red-100 rounded-full flex items-center justify-center transition"
                 onClick={() => handleRemove(obj._id)}
               >
-                {/* Trash SVG */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5 text-red-500"
-                  viewBox="0 0 24 24"
+                  className="w-5 h-5 text-red-600"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -100,61 +99,76 @@ export default function Cart() {
                 </svg>
               </button>
 
-              {/* Product Info */}
+              {/* Product Details */}
               <div className="flex items-center gap-6 w-full md:w-1/2">
                 <img
                   src={obj.image}
                   alt={obj.name}
-                  className="w-28 h-28 object-cover rounded-lg shadow-sm border border-gray-100"
+                  className="w-28 h-28 object-cover rounded-xl border shadow-sm"
                 />
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-800">{obj.name}</h3>
-                  <p className="text-lg text-gray-600 mt-1">{currency}  {convert(obj.price).toFixed(2)}</p>
-                  <p className="text-sm text-green-600 mt-1 font-medium">No Discount</p>
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    {obj.name}
+                  </h3>
+                  <p className="text-lg text-gray-600 mt-1">
+                    {currency} {convert(obj.price).toFixed(2)}
+                  </p>
+                  <p className="text-sm text-green-600 mt-1">
+                    No Discount
+                  </p>
                 </div>
               </div>
 
-              {/* Quantity, Discount & Total */}
-              <div className="flex flex-col md:flex-row items-center justify-end gap-8 w-full md:w-1/2">
-                {/* Quantity Section */}
-                <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-2 shadow-inner">
+              {/* Quantity + Total */}
+              <div className="flex flex-col md:flex-row items-center md:items-end justify-end w-full md:w-1/2 gap-8">
+                
+                {/* Quantity Controls */}
+                <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-2 shadow-inner">
                   <button
-                    className="w-8 h-8 flex items-center justify-center bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition"
+                    className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition text-lg"
                     onClick={() => quantityLess(obj._id)}
                   >
                     −
                   </button>
-                  <span className="text-lg font-semibold text-gray-800">{obj.quantity}</span>
+                  <span className="text-lg font-semibold">{obj.quantity}</span>
                   <button
-                    className="w-8 h-8 flex items-center justify-center bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition"
+                    className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition text-lg"
                     onClick={() => quantityPlus(obj._id)}
                   >
                     +
                   </button>
                 </div>
 
-                {/* Discount Section */}
+                {/* Discount */}
                 <div className="text-center md:text-left">
-                  <p className="text-gray-500 text-sm">Discount</p>
-                  <p className="text-green-600 font-semibold">₹0</p>
+                  <p className="text-sm text-gray-500">Discount</p>
+                  <p className="text-lg font-semibold text-green-600">
+                    ₹0
+                  </p>
                 </div>
 
                 {/* Total Price */}
                 <div className="text-right">
-                  <p className="text-gray-500 text-sm">Total</p>
-                  <p className="text-xl font-bold text-gray-800">{currency} {convert(obj.price * obj.quantity).toFixed(2)}</p>
+                  <p className="text-sm text-gray-500">Total</p>
+                  <p className="text-xl font-bold text-gray-900">
+                    {currency} {convert(obj.price * obj.quantity).toFixed(2)}
+                  </p>
                 </div>
+
               </div>
             </div>
           ))}
 
-          {/* Grand Total Section */}
-          <div className="bg-white rounded-xl shadow-md p-6 mt-8 border border-gray-100 flex flex-col sm:flex-row items-center justify-between">
-            <div className="text-gray-700 text-lg font-medium">Total ( {cart.length} items )</div>
-            <div className="text-2xl font-bold text-gray-800 mt-2 sm:mt-0">
+          {/* Grand Total */}
+          <div className="bg-white rounded-2xl shadow-md p-6 mt-6 border border-gray-200 flex flex-col sm:flex-row items-center justify-between">
+            <p className="text-gray-700 text-lg font-medium">
+              Total ({cart.length} items)
+            </p>
+            <p className="text-3xl font-bold text-gray-900 mt-2 sm:mt-0">
               {grandTotal} {currency}
-            </div>
+            </p>
           </div>
+
         </div>
       )}
     </div>

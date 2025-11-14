@@ -1,7 +1,7 @@
 import Lenis from 'lenis'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FaBoxOpen } from 'react-icons/fa6'   // 🛍️ Icon for “Products”
+import { FaBoxOpen } from 'react-icons/fa6'
 import instance from '../config/axiosConfig'
 import { useCurrency } from '../contexts/CurrencyProvider'
 
@@ -17,8 +17,7 @@ const First = () => {
 
   const [product, setProduct] = useState([])
   const [loading, setLoading] = useState(false)
-    const { convert, currency } = useCurrency()
-  
+  const { convert, currency } = useCurrency()
 
   useEffect(() => {
     getData()
@@ -43,53 +42,57 @@ const First = () => {
 
   if (loading)
     return (
-      <h1 className="text-center mt-20 text-2xl text-[#C63E21] font-[Poppins] font-semibold">
+      <h1 className="text-center mt-20 text-3xl text-[#C63E21] font-[Poppins] font-semibold">
         Loading...
       </h1>
     )
 
   return (
-    <div className="min-h-screen w-full bg-[#F9F7FA] flex flex-col items-center py-10 font-[Poppins]">
-      
-      {/* 🔹 Heading */}
-      <div className="flex items-center gap-3 mb-10">
-        <FaBoxOpen className="text-[#C63E21] text-4xl sm:text-5xl" />
-        <h2 className="text-4xl sm:text-5xl font-bold text-[#C63E21] relative after:content-[''] after:block after:w-20 after:h-[3px] after:bg-[#C63E21] after:mx-auto after:mt-2">
+    <div className="min-h-screen w-full bg-[#F9F7FA] py-12 font-[Poppins]">
+
+      {/* 🔥 Heading Section */}
+      <div className="flex flex-col items-center mb-12 text-center">
+        <FaBoxOpen className="text-[#C63E21] text-5xl mb-3" />
+        <h2 className="text-4xl sm:text-5xl font-bold text-[#C63E21]">
           Products
         </h2>
+        <div className="w-24 h-[3px] bg-[#C63E21] mt-3"></div>
       </div>
 
-      {/* 🔹 Product Grid */}
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-5 sm:px-10">
+      {/* 🔥 Product Cards Grid */}
+      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-6">
+
         {product.length > 0 &&
           product.map((obj) => (
             <div
               key={obj._id}
-              className="shadow-lg bg-[#EEECEF] text-[#003f51] flex flex-col items-center p-8 rounded-lg hover:shadow-xl hover:scale-[1.03] transition-all duration-300"
+              className="bg-white rounded-xl shadow-md hover:shadow-xl 
+              transition-all duration-300 p-6 flex flex-col 
+              items-center hover:-translate-y-2 border border-gray-200"
             >
-              <Link
-                to={`/product/${obj._id}`}
-                className="w-full flex justify-center"
-              >
+
+              {/* Product Image */}
+              <Link to={`/product/${obj._id}`} className="w-full flex justify-center mb-6">
                 <img
                   src={obj.image}
                   alt={obj.name}
-                  className="h-[220px] object-contain mb-6 w-full"
+                  className="h-[220px] w-full object-contain rounded-md"
                 />
               </Link>
 
-              <h3 className="text-[1.2rem] font-semibold mb-3 text-center w-full">
+              {/* Product Name */}
+              <h3 className="text-lg sm:text-xl font-semibold mb-1 text-center">
                 <Link
                   to={`/product/${obj._id}`}
-                  className="hover:text-[#ff6f00] transition-colors duration-200 text-red-700"
+                  className="hover:text-[#C63E21] transition-colors text-[#003f51]"
                 >
                   {trimContent(obj.name, 18)}
                 </Link>
               </h3>
 
-              <p className="text-[1.3rem] font-medium m-0">
-                 {currency} {convert(obj.price).toFixed(2)}
-
+              {/* Price */}
+              <p className="text-xl font-bold text-[#C63E21] mt-2">
+                {currency} {convert(obj.price).toFixed(2)}
               </p>
             </div>
           ))}
