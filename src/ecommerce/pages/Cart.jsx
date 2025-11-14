@@ -1,31 +1,14 @@
 import React, { useEffect } from 'react'
 import { useCart } from '../contexts/CartProvider'
 import { useCurrency } from '../contexts/CurrencyProvider';
-// import instance from '../config/axiosConfig'
 
 export default function Cart() {
   const { cart, setCart } = useCart()
   const { convert, currency } = useCurrency()
 
-  // const [cart, setcart] = useState(
-  //   localStorage.getItem("storedCart") !== null
-  //     ? JSON.parse(localStorage.getItem("storedCart"))
-  //     : []
-  // )
-
-  // useEffect(() => {
-  //   getCartProducts(cart)
-  // }, [cart])
-
   useEffect(() => {
     localStorage.setItem("storedCart", JSON.stringify(cart));
   }, [cart]);
-
-  // async function getCartProducts(cart) {
-  //   const promises = cart.map((obj) => instance.get("/product/product/" + obj.id))
-  //   let temp = await Promise.all(promises)
-  //   setcart(temp.map((obj) => ({ ...obj.data, quantity: 1 })))
-  // }
 
   useEffect(() => {
     const stored = localStorage.getItem("stordcart")
@@ -68,6 +51,10 @@ export default function Cart() {
       return obj._id !== id
     }))
   }
+
+  const grandTotal = cart.reduce((acc, obj) => acc + convert(obj.price * obj.quantity), 0)
+    .toFixed(2);
+
 
 
   return (
@@ -122,7 +109,7 @@ export default function Cart() {
                 />
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800">{obj.name}</h3>
-                  <p className="text-lg text-gray-600 mt-1">{currency}{convert(obj.price).toFixed(2)}</p>
+                  <p className="text-lg text-gray-600 mt-1">{currency}  {convert(obj.price).toFixed(2)}</p>
                   <p className="text-sm text-green-600 mt-1 font-medium">No Discount</p>
                 </div>
               </div>
@@ -155,7 +142,7 @@ export default function Cart() {
                 {/* Total Price */}
                 <div className="text-right">
                   <p className="text-gray-500 text-sm">Total</p>
-                  <p className="text-xl font-bold text-gray-800">{currency}{convert(obj.price * obj.quantity).toFixed(2)}</p>
+                  <p className="text-xl font-bold text-gray-800">{currency} {convert(obj.price * obj.quantity).toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -165,7 +152,7 @@ export default function Cart() {
           <div className="bg-white rounded-xl shadow-md p-6 mt-8 border border-gray-100 flex flex-col sm:flex-row items-center justify-between">
             <div className="text-gray-700 text-lg font-medium">Total ( {cart.length} items )</div>
             <div className="text-2xl font-bold text-gray-800 mt-2 sm:mt-0">
-              {currency}{cart.reduce((acc, obj) => acc + convert(obj.price * obj.quantity).toFixed(2), 0)}
+              {grandTotal} {currency}
             </div>
           </div>
         </div>
