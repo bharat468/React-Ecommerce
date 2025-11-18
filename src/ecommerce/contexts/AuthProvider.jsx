@@ -1,27 +1,44 @@
- import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useReducer} from "react";
 import instance from "../config/axiosConfig";
 import { Navigate } from "react-router-dom";
 
 const authContext = createContext();
 
 function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  const initialstate = {
+    isLoggedIn: null,
+  }
+
+  const [state, dispatch] = useReducer(authReducer, initialstate)
+  // const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  function authReducer(state, action) {
+    switch (action.type) {
+      case "login":
+        return { ...state, isLoggedIn: true }
+      case "logout":
+        return { ...state, isLoggedIn: false }
+      default:
+        return state
+    }
+  }
 
   useEffect(() => {
     checkAuthStatus();
   }, []);
-  
+
   async function checkAuthStatus() {
-    console.log("inside authProvider");
+    // console.log("inside authProvider");
     try {
       const response = await instance.get("/auth/authCheck", {
         withCredentials: true,
       });
       console.log(response)
-      setIsLoggedIn(true);
+      dispatch(true);
     } catch (error) {
       console.log(error);
-      setIsLoggedIn(false);
+      dispatch(false);
     }
   }
 
@@ -34,7 +51,7 @@ function AuthProvider({ children }) {
           withCredentials: true,
         }
       );
-      setIsLoggedIn(false);
+      dispatch(false);
       <Navigate to="/login" />;
     } catch (error) {
       console.log(error);
@@ -42,7 +59,7 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <authContext.Provider value={{ isLoggedIn, checkAuthStatus, logout }}>
+    <authContext.Provider value={{ state, checkAuthStatus, logout }}>
       {children}
     </authContext.Provider>
   );
